@@ -20,7 +20,6 @@ public class TokenController {
 
     private TokenService tokenService;
 
-
     @PostMapping("/validate")
     public ResponseEntity<Void> validateToken(@Valid @RequestBody TokenValidationRequest tokenValidationRequest) {
         tokenService.validateToken(tokenValidationRequest);
