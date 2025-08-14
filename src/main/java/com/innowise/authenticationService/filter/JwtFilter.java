@@ -46,31 +46,31 @@ public class JwtFilter extends OncePerRequestFilter {
         final String authorizationHeader = request.getHeader(AUTHORIZATION);
         String jwt = null;
         String username = null;
-    try {
-        if (Objects.nonNull(authorizationHeader) &&
-                authorizationHeader.startsWith("Bearer ")) {
-            jwt = authorizationHeader.substring(7);
-            username = jwtHelper.extractUsername(jwt);
-        }
+        try {
+            if (Objects.nonNull(authorizationHeader) &&
+                    authorizationHeader.startsWith("Bearer ")) {
+                jwt = authorizationHeader.substring(7);
+                username = jwtHelper.extractUsername(jwt);
+            }
 
-        if (Objects.nonNull(username) && SecurityContextHolder.getContext().getAuthentication() == null) {
+            if (Objects.nonNull(username) && SecurityContextHolder.getContext().getAuthentication() == null) {
                 UserCredentials userCredentials =
                         this.userCredentialsService.loadUserByUsername(username);
 
-            boolean isTokenValidated =
-                    jwtHelper.validateToken(jwt, userCredentials);
-            if (isTokenValidated) {
-                UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
-                        new UsernamePasswordAuthenticationToken(
-                                userCredentials, null, userCredentials.getAuthorities());
+                boolean isTokenValidated =
+                        jwtHelper.validateToken(jwt, userCredentials);
+                if (isTokenValidated) {
+                    UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
+                            new UsernamePasswordAuthenticationToken(
+                                    userCredentials, null, userCredentials.getAuthorities());
 
-                usernamePasswordAuthenticationToken.setDetails(
-                        new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(
-                        usernamePasswordAuthenticationToken);
+                    usernamePasswordAuthenticationToken.setDetails(
+                            new WebAuthenticationDetailsSource().buildDetails(request));
+                    SecurityContextHolder.getContext().setAuthentication(
+                            usernamePasswordAuthenticationToken);
+                }
             }
-        }
-    } catch (ResourceNotFoundCustomException | TokenValidationCustomException e) {
+        } catch (ResourceNotFoundCustomException | TokenValidationCustomException e) {
             log.warn("Authentication failed: {}", e.getMessage());
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return;
@@ -80,5 +80,5 @@ public class JwtFilter extends OncePerRequestFilter {
             return;
         }
         filterChain.doFilter(request, response);
-   }
+    }
 }

@@ -23,9 +23,11 @@ import com.innowise.authenticationService.exception.handler.CustomAccessDeniedHa
 public class SecurityConfiguration {
 
     @Bean
-    SecurityFilterChain filterChain(final HttpSecurity http, JwtFilter jwtFilter,UserCredentialsService userCredentialsService,CustomAccessDeniedHandler accessDeniedHandler) throws Exception {
+    SecurityFilterChain filterChain(final HttpSecurity http, JwtFilter jwtFilter,
+                                    UserCredentialsService userCredentialsService,
+                                    CustomAccessDeniedHandler accessDeniedHandler) throws Exception {
+
         http
-//                .cors(cors ->  cors.configurationSource(corsConfigurationSource()))
                 .csrf(AbstractHttpConfigurer::disable)
                 .exceptionHandling(configurer -> configurer
                         .accessDeniedHandler(accessDeniedHandler))
@@ -33,25 +35,28 @@ public class SecurityConfiguration {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
 
-                                .requestMatchers("/api/v1/signup").permitAll()
-                                .requestMatchers("/api/v1/signin").permitAll()
-                                .requestMatchers("/api/v1/token/refresh").permitAll()
-                                .requestMatchers("/api/v1/token/validate").permitAll()
+                        .requestMatchers("/api/v1/signup").permitAll()
+                        .requestMatchers("/api/v1/signin").permitAll()
+                        .requestMatchers("/api/v1/token/refresh").permitAll()
+                        .requestMatchers("/api/v1/token/validate").permitAll()
                         .anyRequest().authenticated()
                 )
-                  .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
-        .authenticationProvider(authenticationProvider(userCredentialsService, passwordEncoder()));
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+                .authenticationProvider(authenticationProvider(userCredentialsService, passwordEncoder()));
 
         return http.build();
     }
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
+
     @Bean
     public AuthenticationProvider authenticationProvider(
             UserCredentialsService userCredentialService, PasswordEncoder encoder) {

@@ -1,10 +1,6 @@
 package com.innowise.authenticationService.integrationTests;
 
 
-import com.innowise.authenticationService.dto.RefreshTokenRequest;
-import com.innowise.authenticationService.dto.TokenRequest;
-import com.innowise.authenticationService.dto.TokenResponse;
-import com.innowise.authenticationService.dto.UserCredentialsDto;
 import com.innowise.authenticationService.entity.UserCredentials;
 import com.innowise.authenticationService.service.TokenService;
 import com.innowise.authenticationService.service.UserCredentialsService;

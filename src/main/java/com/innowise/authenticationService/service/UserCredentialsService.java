@@ -10,8 +10,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-
 import java.util.Map;
 
 @Service
@@ -43,7 +41,6 @@ public class UserCredentialsService implements UserDetailsService {
 
         String hashedPassword = passwordEncoder.encode(request.getPassword());
         userCredentials.setPassword(hashedPassword);
-
         userCredentials.setRole("USER");
 
         userCredentialsRepository.save(userCredentials);
@@ -69,5 +66,4 @@ public class UserCredentialsService implements UserDetailsService {
         userCredentials.setRefreshToken(refreshToken);
         userCredentialsRepository.save(userCredentials);
     }
-
 }

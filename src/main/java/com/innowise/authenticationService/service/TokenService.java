@@ -10,12 +10,10 @@ import com.innowise.authenticationService.exception.ResourceNotFoundCustomExcept
 import com.innowise.authenticationService.exception.TokenValidationCustomException;
 import com.innowise.authenticationService.filter.JwtHelper;
 import com.innowise.authenticationService.repository.UserCredentialsRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.reactive.function.client.WebClient;
-
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.Map;
 
@@ -24,11 +22,9 @@ import java.util.Map;
 public class TokenService {
 
     JwtHelper jwtHelper;
-
     UserCredentialsService userCredentialsService;
     UserCredentialsRepository userCredentialsRepository;
-     WebClient webClient;
-
+    WebClient webClient;
 
     public TokenResponse authenticate(TokenRequest tokenRequest) {
         if(tokenRequest == null) {
@@ -64,7 +60,6 @@ public class TokenService {
         if (!tokenRequest.getRefreshToken().equals(userCredentials.getRefreshToken())) {
             throw new TokenValidationCustomException("Invalid refresh token");
         }
-        
         if (!jwtHelper.validateRefreshToken(tokenRequest.getRefreshToken(), userCredentials)) {
             throw new TokenValidationCustomException("Refresh token validation failed");
         }

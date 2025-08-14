@@ -38,7 +38,6 @@ public class JwtHelper {
     SecretKey secretKey;
     SecretKey refreshSecretKey;
 
-
     private final AuthenticationManager authenticationManager;
 
     @PostConstruct
@@ -83,7 +82,6 @@ public class JwtHelper {
                 .compact();
     }
 
-
     public String extractUsername(String token) {
         return parseClaims(token, secretKey).getSubject();
     }
@@ -114,7 +112,6 @@ public class JwtHelper {
 
         return username.equals(userCredentials.getUsername()) && !isTokenExpired;
     }
-
 
     public void authenticateUser(String email, String password) {
         try {
