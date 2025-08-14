@@ -55,3 +55,12 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+sonar {
+    properties {
+        property "sonar.projectKey", "kruartSPQR_AuthService2"
+        property "sonar.projectName", "AuthService"
+        property "sonar.organization", "kruartspqr"
+        property "sonar.token", System.getenv("SONAR_TOKEN")
+        property "sonar.host.url", System.getenv("SONAR_HOST_URL")
+    }
+}
