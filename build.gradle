@@ -31,7 +31,6 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.liquibase:liquibase-core'
 	compileOnly 'org.projectlombok:lombok'
-//	developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
 	runtimeOnly 'org.postgresql:postgresql'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
@@ -66,10 +65,10 @@ sonar {
     }
 }
 test {
-    finalizedBy jacocoTestReport // report is always generated after tests run
+    finalizedBy jacocoTestReport
 }
 jacocoTestReport {
-    dependsOn test // tests are required to run before generating the report
+    dependsOn test
     reports {
         xml.required = true
         csv.required = false
@@ -78,5 +77,4 @@ jacocoTestReport {
 }
 jacoco {
     toolVersion = "0.8.13"
-//    reportsDirectory = layout.buildDirectory.dir('customJacocoReportDir')
 }
