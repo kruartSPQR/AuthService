@@ -1,6 +1,5 @@
 package com.innowise.authenticationService.configuration;
 
-import com.innowise.authenticationService.filter.JwtFilter;
 import com.innowise.authenticationService.service.UserCredentialsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,7 +14,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import com.innowise.authenticationService.exception.handler.CustomAccessDeniedHandler;
 
 @Configuration
@@ -23,7 +21,7 @@ import com.innowise.authenticationService.exception.handler.CustomAccessDeniedHa
 public class SecurityConfiguration {
 
     @Bean
-    SecurityFilterChain filterChain(final HttpSecurity http, JwtFilter jwtFilter,
+    SecurityFilterChain filterChain(final HttpSecurity http,
                                     UserCredentialsService userCredentialsService,
                                     CustomAccessDeniedHandler accessDeniedHandler) throws Exception {
 
@@ -34,14 +32,8 @@ public class SecurityConfiguration {
                 .sessionManagement(configurer -> configurer
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
-
-                        .requestMatchers("/api/v1/signup").permitAll()
-                        .requestMatchers("/api/v1/signin").permitAll()
-                        .requestMatchers("/api/v1/token/refresh").permitAll()
-                        .requestMatchers("/api/v1/token/validate").permitAll()
-                        .anyRequest().authenticated()
+                        .anyRequest().permitAll()
                 )
-                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .authenticationProvider(authenticationProvider(userCredentialsService, passwordEncoder()));
 
         return http.build();

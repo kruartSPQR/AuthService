@@ -10,10 +10,11 @@ import com.innowise.authenticationService.exception.ResourceNotFoundCustomExcept
 import com.innowise.authenticationService.exception.TokenValidationCustomException;
 import com.innowise.authenticationService.filter.JwtHelper;
 import com.innowise.authenticationService.repository.UserCredentialsRepository;
-import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 import java.util.Map;
 
@@ -26,27 +27,28 @@ public class TokenService {
     UserCredentialsRepository userCredentialsRepository;
     WebClient webClient;
 
+    @Transactional(rollbackFor = {WebClientResponseException.class, AuthenticationCustomException.class})
     public TokenResponse authenticate(TokenRequest tokenRequest) {
-        if(tokenRequest == null) {
+        if (tokenRequest == null) {
             throw new AuthenticationCustomException("Invalid token request");
         }
         jwtHelper.authenticateUser(tokenRequest.getEmail(), tokenRequest.getPassword());
 
-        Map<String,Object> claims = userCredentialsService.generateClaims(tokenRequest.getEmail());
+        Map<String, Object> claims = userCredentialsService.generateClaims(tokenRequest.getEmail());
 
         TokenResponse tokenResponse = new TokenResponse();
         String accessToken = jwtHelper.createToken(claims, tokenRequest.getEmail());
         tokenResponse.setAccessToken(accessToken);
         String refreshToken = jwtHelper.createRefreshToken(tokenRequest.getEmail());
         tokenResponse.setRefreshToken(refreshToken);
-        userCredentialsService.saveRefreshToken(refreshToken,tokenRequest.getEmail());
+        userCredentialsService.saveRefreshToken(refreshToken, tokenRequest.getEmail());
 
-        saveToUserService(accessToken,tokenRequest.getEmail());
         return tokenResponse;
     }
+
     @Transactional
     public TokenResponse refreshToken(RefreshTokenRequest tokenRequest) {
-        if(tokenRequest == null) {
+        if (tokenRequest == null) {
             throw new TokenValidationCustomException("Invalid token request");
         }
 
@@ -64,7 +66,7 @@ public class TokenService {
             throw new TokenValidationCustomException("Refresh token validation failed");
         }
         String refreshToken = jwtHelper.createRefreshToken(userCredentials.getEmail());
-        userCredentialsService.saveRefreshToken(refreshToken,username);
+        userCredentialsService.saveRefreshToken(refreshToken, username);
 
         String accessToken = jwtHelper.createToken(
                 userCredentialsService.generateClaims(userCredentials.getEmail()), userCredentials.getEmail());
@@ -89,10 +91,10 @@ public class TokenService {
             }
             return;
         } catch (ResourceNotFoundCustomException e) {
-        throw new ResourceNotFoundCustomException("Access token validation failed");
+            throw new ResourceNotFoundCustomException("Access token validation failed");
         } catch (Exception ignored) {
         }
-        
+
         try {
             String username = jwtHelper.extractUsernameFromRefreshToken(request.getToken());
             UserCredentials userCredentials = userCredentialsService.loadUserByUsername(username);
@@ -104,14 +106,5 @@ public class TokenService {
         } catch (Exception e) {
             throw new TokenValidationCustomException("Token validation failed", e);
         }
-    }
-    public void saveToUserService(String accessToken, String email) {
-        webClient.post()
-                .uri("/api/v1/users/add")
-                .header("Authorization", "Bearer " + accessToken)
-                .bodyValue(Map.of("email", email))
-                .retrieve()
-                .bodyToMono(Void.class)
-                .block();
     }
 }
