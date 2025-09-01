@@ -14,8 +14,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.bean.override.mockito.MockitoSpyBean;
 
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.doNothing;
 
 @Component
 public class TokenServiceIntegrationTests extends BaseAuthServiceIntegrationTest{
@@ -34,8 +32,6 @@ public class TokenServiceIntegrationTests extends BaseAuthServiceIntegrationTest
         TokenRequest tokenRequest = new TokenRequest();
         tokenRequest.setEmail("bob@gmail.com");
         tokenRequest.setPassword("password");
-
-        doNothing().when(tokenService).saveToUserService(anyString(), anyString()); //ignoring relation with UserSvc
 
         TokenResponse tokenResponse = tokenService.authenticate(tokenRequest);
 
