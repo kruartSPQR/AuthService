@@ -27,6 +27,7 @@ repositories {
         name = "GitHubPackages"
         url = uri("https://maven.pkg.github.com/kruartSPQR/common")
         credentials {
+
             username = findProperty('gpr.user') ?: System.getenv('GITHUB_ACTOR')
             password = findProperty('gpr.token') ?: System.getenv('GIT_TOKEN')
         }
