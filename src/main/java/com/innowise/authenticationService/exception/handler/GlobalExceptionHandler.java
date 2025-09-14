@@ -1,9 +1,9 @@
 package com.innowise.authenticationService.exception.handler;
 
-import com.innowise.authenticationService.exception.AuthenticationCustomException;
-import com.innowise.authenticationService.exception.DuplicateResourceCustomException;
-import com.innowise.authenticationService.exception.ResourceNotFoundCustomException;
-import com.innowise.authenticationService.exception.TokenValidationCustomException;
+import com.innowise.common.exception.AuthenticationCustomException;
+import com.innowise.common.exception.DuplicateResourceCustomException;
+import com.innowise.common.exception.ResourceNotFoundCustomException;
+import com.innowise.common.exception.TokenValidationCustomException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;

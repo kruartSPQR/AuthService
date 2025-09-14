@@ -23,9 +23,18 @@ configurations {
 
 repositories {
 	mavenCentral()
+    maven {
+        name = "GitHubPackages"
+        url = uri("https://maven.pkg.github.com/kruartSPQR/common")
+        credentials {
+            username = findProperty('gpr.user') ?: System.getenv('GITHUB_USERNAME')
+            password = findProperty('gpr.token') ?: System.getenv('GITHUB_TOKEN')
+        }
+    }
 }
 
 dependencies {
+    implementation 'com.innowise:common:0.0.1-SNAPSHOT'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-web'

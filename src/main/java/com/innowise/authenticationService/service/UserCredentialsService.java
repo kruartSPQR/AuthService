@@ -2,10 +2,10 @@ package com.innowise.authenticationService.service;
 
 import com.innowise.authenticationService.dto.UserCredentialsDto;
 import com.innowise.authenticationService.entity.UserCredentials;
-import com.innowise.authenticationService.exception.DuplicateResourceCustomException;
-import com.innowise.authenticationService.exception.ResourceNotFoundCustomException;
 import com.innowise.authenticationService.mapper.UserCredentialsDtoMapper;
 import com.innowise.authenticationService.repository.UserCredentialsRepository;
+import com.innowise.common.exception.DuplicateResourceCustomException;
+import com.innowise.common.exception.ResourceNotFoundCustomException;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;

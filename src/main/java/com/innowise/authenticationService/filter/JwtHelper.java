@@ -1,7 +1,7 @@
 package com.innowise.authenticationService.filter;
 
 import com.innowise.authenticationService.entity.UserCredentials;
-import com.innowise.authenticationService.exception.AuthenticationCustomException;
+import com.innowise.common.exception.AuthenticationCustomException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;

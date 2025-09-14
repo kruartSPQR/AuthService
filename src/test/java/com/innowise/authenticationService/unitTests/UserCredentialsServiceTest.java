@@ -2,11 +2,11 @@ package com.innowise.authenticationService.unitTests;
 
 import com.innowise.authenticationService.dto.UserCredentialsDto;
 import com.innowise.authenticationService.entity.UserCredentials;
-import com.innowise.authenticationService.exception.DuplicateResourceCustomException;
-import com.innowise.authenticationService.exception.ResourceNotFoundCustomException;
 import com.innowise.authenticationService.mapper.UserCredentialsDtoMapper;
 import com.innowise.authenticationService.repository.UserCredentialsRepository;
 import com.innowise.authenticationService.service.UserCredentialsService;
+import com.innowise.common.exception.DuplicateResourceCustomException;
+import com.innowise.common.exception.ResourceNotFoundCustomException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
