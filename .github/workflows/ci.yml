@@ -74,6 +74,8 @@ jobs:
 
   docker:
     runs-on: ubuntu-latest
+    env:
+      GIT_TOKEN: ${{ secrets.GIT_TOKEN }}
     needs: code_analysis
     steps:
       - uses: actions/checkout@v4
