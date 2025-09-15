@@ -76,7 +76,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GIT_TOKEN: ${{ secrets.GIT_TOKEN }}
-      GITHUB_ACTOR: ${{ github.actor }}
     needs: code_analysis
     steps:
       - uses: actions/checkout@v4
@@ -94,3 +93,6 @@ jobs:
           context: .
           push: true
           tags: ghcr.io/kruartspqr/authservice_docker_image:latest
+          build-args: |
+            GITHUB_ACTOR=${{ github.actor }}
+            GIT_TOKEN=${{ secrets.GIT_TOKEN }}
