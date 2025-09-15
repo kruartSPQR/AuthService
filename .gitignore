@@ -8,3 +8,4 @@ build/
 *.iws
 *.iml
 *.ipr
+gradle.properties
