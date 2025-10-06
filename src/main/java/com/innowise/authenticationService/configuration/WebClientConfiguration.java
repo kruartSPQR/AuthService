@@ -10,7 +10,7 @@ public class WebClientConfiguration {
     @Bean
     public WebClient webClient(WebClient.Builder builder) {
 
-        return builder.baseUrl("http://localhost:8081").build(); // 8081 if docker
+        return builder.baseUrl("http://userservice:8081").build(); // 8081 if docker
     }
 }
 
